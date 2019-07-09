@@ -1,0 +1,61 @@
+item {
+  name: "none_of_the_above"
+  label: 0
+  display_name: "background"
+}
+item {
+  name: "hand"
+  label: 1
+  display_name: "没有商品的手"
+}
+item {
+  name: "asm-asmnc-pz-yw-500ml"
+  label: 2
+  display_name: "阿萨姆奶茶"
+}
+
+item {
+  name: "ksf-ksfmlmc-pz-yw-500ml"
+  label: 3
+  display_name: "康师傅茉莉绿茶"
+}
+item {
+  name: "yb-ybcjs-pz-yw-555ml"
+  label: 4
+  display_name: "怡宝纯净水"
+}
+item {
+  name: "yy-yylght-gz-ht-240ml"
+  label: 5
+  display_name: "养元六个核桃"
+}
+item {
+  name: "nfsq-nfsqjjydyl-pz-nmw-550ml"
+  label: 6
+  display_name: "农夫山泉尖叫运动饮料"
+}
+item {
+  name: "ksf-ksfmlqc-pz-yw-500ml"
+  label: 7
+  display_name: "康师傅茉莉清茶"
+}
+item {
+  name: "wlj-wljlc-gz-yw-310ml"
+  label: 8
+  display_name: "王老吉凉茶"
+}
+item {
+  name: "mzy-mzyglny-pz-blw-450ml"
+  label: 9
+  display_name: "美汁源果粒奶优"
+}
+item {
+  name: "ty-hzy-pz-gw-500ml"
+  label: 10
+  display_name: "海之盐"
+}
+item {
+  name: "nfsq-nfsqyytrs-pz-yw-550ml"
+  label: 11
+  display_name: "农夫山泉纯净水"
+}
