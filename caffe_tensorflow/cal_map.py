@@ -1,5 +1,5 @@
 from jade.voc0712 import VOCDetection,AnnotationTransform
-
+import numpy as np
 testset = VOCDetection(
     "/home/jade/Data/HandGesture", [('Hand_Gesture', 'test')], None, AnnotationTransform())
 from jade.jade_tools import *
@@ -27,7 +27,7 @@ for i in range(num_images):
     scale = ([img.shape[1], img.shape[0],
                           img.shape[1], img.shape[0]])
     bboxes_out, label_text, classes_out, scores , c_dets= refinedetModel.predict(img)
-    No_Line_Print("Detecting ...",processbar)
+    NoLinePrint("Detecting ...",processbar)
     for j in range(1, num_classes):
         all_boxes[j][i] = c_dets
     if max_per_image > 0:
