@@ -20,5 +20,13 @@ python create_lmdb.py
 python train512
 ```
 5.caffe_to_tensorflow.py caffeModel to npy
+```
+python caffe_to_tensorflow 
+```
+> use the Caffe Trained Model to save as npy
 
 6.npy to tensorflow Model
+```
+python caffe_tensorflow/npy_tensorflow_model.py 
+```
+>change .npy to tensorflow Model
