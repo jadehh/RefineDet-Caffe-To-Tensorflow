@@ -1,7 +1,7 @@
 from __future__ import print_function
 import sys
 import argparse
-sys.path.append("/home/jade/RefineDet/python")
+sys.path.append("/data/home/jdh/Desktop/RefineDet-master/python")
 import caffe
 from caffe.model_libs import *
 from google.protobuf import text_format
@@ -334,7 +334,7 @@ def main(args):
 
     # Solver parameters.
     # Defining which GPUs to use.
-    gpus = "0"
+    gpus = "5"
     gpulist = gpus.split(",")
     num_gpus = len(gpulist)
 
@@ -592,7 +592,7 @@ def main(args):
 
     # Create job file.
     with open(job_file, 'w') as f:
-        f.write('cd {}\n'.format("/home/jade/RefineDet"))
+        f.write('cd {}\n'.format("/data/home/jdh/Desktop/RefineDet-master"))
         f.write('./build/tools/caffe train \\\n')
         f.write('--solver="{}" \\\n'.format(solver_file))
         f.write(train_src_param)
@@ -613,9 +613,9 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Refinedet')
-    parser.add_argument('--train_data_path', type=str, default=GetRootPath() + "Data/HandGesture/Hand_Gesture/lmdb/Hand_Gesture_train_lmdb", help='the path of traindatapath')
-    parser.add_argument('--test_data_path', type=str, default=GetRootPath() + "Data/HandGesture/Hand_Gesture/lmdb/Hand_Gesture_test_lmdb", help='the path of testdatapath')
-    parser.add_argument('--dataset_name', type=str, default="HAND_GESTURE_512_" + GetToday(), help='save name')
-    parser.add_argument('--num_classes', type=int, default=3, help='num_classes')
+    parser.add_argument('--train_data_path', type=str, default = "/data2/jdh/VOCdevkit/VOC2012/lmdb/VOC2012_train_lmdb", help='the path of traindatapath')
+    parser.add_argument('--test_data_path', type=str, default= "/data2/jdh/VOCdevkit/VOC2012/lmdb/VOC2012_test_lmdb", help='the path of testdatapath')
+    parser.add_argument('--dataset_name', type=str, default="VOC_" + GetToday(), help='save name')
+    parser.add_argument('--num_classes', type=int, default=21, help='num_classes')
     args = parser.parse_args()
     main(args)

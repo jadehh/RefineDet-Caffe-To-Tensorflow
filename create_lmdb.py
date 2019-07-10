@@ -3,9 +3,9 @@ import os
 import shutil
 import subprocess
 import sys
-from jade.jade_tools import *
-sys.path.append("/home/jade/RefineDet/python")
-
+from jade import *
+sys.path.append("/data/home/jdh/RefineDet-master/python")
+import caffe
 from caffe.proto import caffe_pb2
 from google.protobuf import text_format
 
@@ -108,12 +108,15 @@ def create_anno(args2,subset = "train"):
   if not os.path.exists(list_file):
     print "list file: {} does not exist".format(list_file)
     sys.exit()
+  new_list_file = []
   # check list file format is correct
   with open(list_file, "r") as lf:
     for line in lf.readlines():
-
       print line
-      img_file, anno = line.strip("\n").split(" ")
+      filename = line.strip("\n")
+      img_file = os.path.join(dataset_name,DIRECTORY_IMAGES,filename+".jpg")
+      anno = os.path.join(dataset_name,DIRECTORY_ANNOTATIONS,filename + ".xml")
+      new_list_file.append(img_file+" "+anno+"\n")
       if not os.path.exists(root_dir + img_file):
         print "image file: {} does not exist".format(root_dir + img_file)
       if anno_type == "classification":
@@ -124,6 +127,7 @@ def create_anno(args2,subset = "train"):
           print "annofation file: {} does not exist".format(root_dir + anno)
           sys.exit()
       break
+
   # check if label map file exist
   if anno_type == "detection":
     if not os.path.exists(label_map_file):
@@ -146,7 +150,7 @@ def create_anno(args2,subset = "train"):
     shutil.rmtree(out_dir)
 
   # get caffe root directory
-  caffe_root = "/home/jade/RefineDet"
+  caffe_root = "/data/home/jdh/RefineDet-master"
   if anno_type == "detection":
     cmd = "{}/build/tools/convert_annoset" \
         " --anno_type={}" \
@@ -166,16 +170,16 @@ def create_anno(args2,subset = "train"):
         " {} {} {}" \
         .format(caffe_root, anno_type, label_type, label_map_file, check_label,
             min_dim, max_dim, resize_height, resize_width, backend, shuffle,
-            check_size, encode_type, encoded, gray, root_dir, list_file, out_dir)
+            check_size, encode_type, encoded, gray, root_dir, new_list_file, out_dir)
     print cmd
   process = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
   output = process.communicate()[0]
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Create AnnotatedDatum database")
-    parser.add_argument("--data_root_dir",type=str,default="/home/jade/Data/StaticDeepFreeze/", help="data dir")
-    parser.add_argument("--dataset_name",type=str,default="2019-03-18_14-11-36", help="data dir")
-    parser.add_argument("--mapfile", type=str, default="/home/jade/Data/StaticDeepFreeze/2019-03-18_14-11-36/wild_goods.prototxt", help="data dir")
+    parser.add_argument("--data_root_dir",type=str,default="/data2/jdh/VOCdevkit/", help="data dir")
+    parser.add_argument("--dataset_name",type=str,default="VOC2012", help="data dir")
+    parser.add_argument("--mapfile", type=str, default="/data/home/jdh/label_map/voc.prototxt", help="data dir")
     args = parser.parse_args()
     subsets = ["test","train"]
     for subset in subsets:
