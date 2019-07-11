@@ -3,13 +3,13 @@ import argparse
 from caffe_tensorflow.RefinedetModelNpy  import Refinedet512Model
 parser = argparse.ArgumentParser()
 parser.add_argument('--gpu_id', type=int, default=0)
-parser.add_argument('--model_path', type=str, default="StaticDeepFreeze/StaticDeepFreeze.npy")
-parser.add_argument('--num_classes', type=int, default=10)
-parser.add_argument('--label_map_path', type=str, default="/home/jade/label_map/wild_goods.prototxt")
+parser.add_argument('--model_path', type=str, default="VOC0712Plus/VOC0712Plus.npy")
+parser.add_argument('--num_classes', type=int, default=20)
+parser.add_argument('--label_map_path', type=str, default="/home/jade/label_map/voc.prototxt")
 args = parser.parse_args()
 refinedetModel = Refinedet512Model(args)
 
-images = GetAllImagesPath("/home/jade/Data/StaticDeepFreeze/2019-03-18_14-11-36/JPEGImages")
+images = GetAllImagesPath("/home/jade/Data/VOCdevkit/VOC2012/JPEGImages")
 processbar = ProcessBar()
 processbar.count = len(images)
 start_time = time.time()

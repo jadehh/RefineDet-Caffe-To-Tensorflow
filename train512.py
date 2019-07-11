@@ -239,11 +239,10 @@ def main(args):
     lr_mult = 1
     # Use different initial learning rate.
     if use_batchnorm:
-        base_lr = 0.0004
+        base_lr = 0.00004
     else:
         # A learning rate for batch_size = 1, num_gpus = 1.
-        base_lr = 0.00004
-
+        base_lr = 0.000004
     dataset_name = args.dataset_name
     # Modify the job name if you want.
     job_name = "refinedet_vgg16_{}".format(resize)
@@ -272,7 +271,7 @@ def main(args):
     # Stores the test image names and sizes. Created by data/VOC0712Plus/create_list.sh
     name_size_file = GetRootPath() + "data/{}/test_name_size.txt".format(dataset_name)
     # The pretrained model. We use the Fully convolutional reduced (atrous) VGGNet.
-    pretrain_model = GetRootPath() + "checkpoints/caffe_model/VGG_ILSVRC_16_layers_fc_reduced.caffemodel"
+    pretrain_model = GetRootPath() + "Checkpoints/caffe_model/VGG_ILSVRC_16_layers_fc_reduced.caffemodel"
     # Stores LabelMapItem.
     label_map_file = GetRootPath() + "label_map/{}.prototxt".format(dataset_name)
 
@@ -339,7 +338,7 @@ def main(args):
     num_gpus = len(gpulist)
 
     # Divide the mini-batch to different GPUs.
-    batch_size = 8
+    batch_size = 12
     accum_batch_size = 8
     iter_size = accum_batch_size / batch_size
     solver_mode = P.Solver.CPU
@@ -367,7 +366,7 @@ def main(args):
 
     solver_param = {
         # Train parameters
-        'base_lr': 0.00001,
+        'base_lr': base_lr,
         'weight_decay': 0.0005,
         'lr_policy': "multistep",
         'stepvalue': [160000, 200000, 240000],
@@ -567,7 +566,8 @@ def main(args):
     for file in os.listdir(snapshot_dir):
         if file.endswith(".solverstate"):
             basename = os.path.splitext(file)[0]
-            iter = int(basename.split("{}_iter_".format(model_name))[1])
+            print(basename.split("_iter_".format(model_name)))
+            iter = int(basename.split("_iter_".format(model_name))[1])
             if iter > max_iter:
                 max_iter = iter
 

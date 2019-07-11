@@ -11,7 +11,7 @@ import skimage.io as io
 # Make sure that caffe is on the python path:
 from jade import *
 
-sys.path.append(GetRootPath()+"/RefineDet/python")
+sys.path.append(GetRootPath()+"/RefineDet-master/python")
 import caffe
 
 from google.protobuf import text_format
@@ -67,12 +67,12 @@ class Refinedet512Model():
         self.labelmap_file = args.labelmap_file
         self.model_def = args.model_def
         self.model_weights = args.model_weights
-        self.category_index = ReadProTxt(self.labelmap_file)
-        self.num_classes = len(self.category_index.items())
+        self.classes,self.category_index = ReadProTxt(self.labelmap_file)
+        self.num_classes = len(self.classes)
         self.net, self.transformer, self.labelmap = self.load_model()
 
     def load_model(self):
-        caffe.set_device(0)
+        caffe.set_device(5)
         caffe.set_mode_gpu()
         # load labelmap
         file = open(self.labelmap_file, 'r')
@@ -164,13 +164,17 @@ class Refinedet512Model():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model_def', type=str, default="/home/jade/Desktop/face-gesture-analysis-server/model/caffe_model_512/deploy.prototxt")
-    parser.add_argument('--model_weights', type=str, default="/home/jade/Desktop/face-gesture-analysis-server/model/caffe_model_512/HAND_GESTURE_512_2018-12-29_refinedet_vgg16_512x512_iter_120000.caffemodel")
-    parser.add_argument('--labelmap_file',type=str,default="/home/jade/Data/HandGesture/Hand_Gesture/hand_gesture.prototxt")
+    parser.add_argument('--model_def', type=str, default="/data/home/jdh/models/VOC0712Plus/refinedet_vgg16_512x512_ft/deploy.prototxt")
+    parser.add_argument('--model_weights', type=str, default="/data/home/jdh/models/VOC0712Plus/refinedet_vgg16_512x512_ft/VOC0712Plus_refinedet_vgg16_512x512_ft_final.caffemodel")
+    parser.add_argument('--labelmap_file',type=str,default="/data/home/jdh/label_map/voc.prototxt")
     args = parser.parse_args()
     refinedetModel = Refinedet512Model(args)
-    image_paths = GetVOCTestImagePath("/home/jade/Data/HandGesture/Hand_Gesture")
+    image_paths = GetAllImagesPath("/data2/jdh/VOCdevkit/VOC2012/JPEGImages")
+    index = 0
     for image_path in image_paths:
+        print ("detecting ...")
         image = cv2.imread(image_path)
-        bbooxes,label_text,classes,scores = refinedetModel.predict_all_boxes(image,)
-        CVShowBoxes(image,bbooxes,label_text,classes,scores,waitkey=True)
+        bbooxes,label_text,classes,scores = refinedetModel.predict(image)
+        image_result = CVShowBoxes(image,bbooxes,label_text,classes,scores)
+        cv2.imwrite("image/"+str(index)+".jpg",image_result)
+        index = index + 1

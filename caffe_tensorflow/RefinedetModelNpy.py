@@ -1,6 +1,6 @@
 #coding=utf-8
 # Import the converted model's class
-from StaticDeepFreeze.StaticDeepFreeze import StaticDeepFreeze
+from VOC0712Plus.VOC0712Plus import VOC0712Plus
 import tensorflow as tf
 from utils.nms_wrapper import nms
 from jade import *
@@ -16,7 +16,7 @@ class Refinedet512Model():
         sess = tf.Session()
         input = tf.placeholder(tf.float32, (None, None, 3), 'input')
         input = transformed_image_tf(input, default_size=512)
-        net = StaticDeepFreeze({'data': input})
+        net = VOC0712Plus({'data': input})
         net.load(self.model_path, sess)
         return net, sess
     def get_label_map(self):

@@ -39,10 +39,10 @@ def convert(class_name,def_path, caffemodel_path, data_output_path, code_output_
 
 
 def main():
-    deploy_path = "/home/jade/Models/StaticDeepFreeze_2019-03-19/refinedet_vgg16_512x512/deploy.prototxt"
-    caffemodel_path = "/home/jade/Models/StaticDeepFreeze_2019-03-19/refinedet_vgg16_512x512/StaticDeepFreeze_2019-03-19_refinedet_vgg16_512x512_iter_80000.caffemodel"
-    dataname = "StaticDeepFreeze"
-    num_classes = 11
+    deploy_path = "/data/home/jdh/models/VOC0712Plus/refinedet_vgg16_512x512_ft/deploy.prototxt"
+    caffemodel_path = "/data/home/jdh/models/VOC0712Plus/refinedet_vgg16_512x512_ft/VOC0712Plus_refinedet_vgg16_512x512_ft_final.caffemodel"
+    dataname = "VOC0712Plus"
+    num_classes = 21
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--num_classes', default=num_classes, help='num_classes')
